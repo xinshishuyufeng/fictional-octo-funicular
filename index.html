@@ -1,33 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Full Screen Image</title>
-<style>
-  /* 设置整个页面的样式 */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* 防止页面滚动 */
-    background-color: #000; /* 设置背景颜色 */
-  }
-  /* 设置图片的样式 */
-  img.full-screen-image {
-    width: 100%; /* 使图片宽度充满整个屏幕 */
-    height: auto; /* 高度自适应，保持图片宽高比 */
-    position: absolute; /* 使用绝对定位 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 使用transform进行居中 */
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全屏图片</title>
+    <style>
+        /* 设置图片为全屏显示 */
+        .fullscreen-image {
+            width: 100vw; /* 视口宽度 */
+            height: 100vh; /* 视口高度 */
+            max-width: 100%; /* 确保图片不会超出屏幕 */
+            max-height: 100%; /* 确保图片不会超出屏幕 */
+            object-fit: cover; /* 覆盖整个容器，可能图片会被裁剪 */
+        }
+
+        /* 确保body元素没有内边距和外边距 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止滚动条出现 */
+        }
+    </style>
 </head>
 <body>
-
-<!-- 将 src 属性的值替换为你的图片路径 -->
-<img src="https://cn.bing.com/images/search?view=detailV2&ccid=zF3IWg3T&id=460433E60E1C5E786DF6342A733BEF285C077E03&thid=OIP.zF3IWg3TWafxNR5mnujBrgHaHX&mediaurl=https%3a%2f%2fimg.zcool.cn%2fcommunity%2f01dcd059117b12a801216a3e9c4fd5.jpg%401280w_1l_2o_100sh.jpg&exph=1274&expw=1280&q=%e7%8c%ab&simid=608013421157382429&FORM=IRPRST&ck=CC8FF5A1E07E8F6C10F58124E7E2D2D3&selectedIndex=0&itb=0" alt="Full Screen Image" class="full-screen-image">
-
+    <img src="https://ts1.cn.mm.bing.net/th?id=OIP-C.kkwqzsTC30JajWkFCSVWoQC8Es&w=122&h=185&c=8&rs=1&qlt=90&o=6&dpr=2&pid=3.1&rm=2" alt="全屏图片" class="fullscreen-image">
 </body>
 </html>
