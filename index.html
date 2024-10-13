@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Single Image Page</title>
+<title>Full Screen Image</title>
 <style>
   /* 设置整个页面的样式 */
   html, body {
@@ -11,30 +11,23 @@
     margin: 0;
     padding: 0;
     overflow: hidden; /* 防止页面滚动 */
-  }
-  /* 设置图片容器的样式 */
-  .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
     background-color: #000; /* 设置背景颜色 */
   }
   /* 设置图片的样式 */
-  .image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* 保持图片比例 */
+  img.full-screen-image {
+    width: 100%; /* 使图片宽度充满整个屏幕 */
+    height: auto; /* 高度自适应，保持图片宽高比 */
+    position: absolute; /* 使用绝对定位 */
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 使用transform进行居中 */
   }
 </style>
 </head>
 <body>
 
-<div class="image-container">
-  <!-- 将 src 属性的值替换为你的图片路径 -->
-  <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.yLpIh_51pp7NJEJNeUVWbgHaHa?w=180&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="Displayed Image">
-</div>
+<!-- 将 src 属性的值替换为你的图片路径 -->
+<img src="https://cn.bing.com/images/search?view=detailV2&ccid=zF3IWg3T&id=460433E60E1C5E786DF6342A733BEF285C077E03&thid=OIP.zF3IWg3TWafxNR5mnujBrgHaHX&mediaurl=https%3a%2f%2fimg.zcool.cn%2fcommunity%2f01dcd059117b12a801216a3e9c4fd5.jpg%401280w_1l_2o_100sh.jpg&exph=1274&expw=1280&q=%e7%8c%ab&simid=608013421157382429&FORM=IRPRST&ck=CC8FF5A1E07E8F6C10F58124E7E2D2D3&selectedIndex=0&itb=0" alt="Full Screen Image" class="full-screen-image">
 
 </body>
 </html>
-
