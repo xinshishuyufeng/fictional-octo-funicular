@@ -3,27 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全屏图片</title>
+    <title>缩放图片</title>
     <style>
-        /* 设置图片为全屏显示 */
-        .fullscreen-image {
-            width: 100vw; /* 视口宽度 */
-            height: 100vh; /* 视口高度 */
-            max-width: 100%; /* 确保图片不会超出屏幕 */
-            max-height: 100%; /* 确保图片不会超出屏幕 */
-            object-fit: cover; /* 覆盖整个容器，可能图片会被裁剪 */
-        }
-
-        /* 确保body元素没有内边距和外边距 */
         body, html {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* 防止滚动条出现 */
+            overflow: hidden;
+        }
+        .fullscreen-image {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            object-fit: cover;
+        }
+        .centered-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10%; /* 原始尺寸的十分之一 */
+            height: auto;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <img src="https://ts1.cn.mm.bing.net/th?id=OIP-C.kkwqzsTC30JajWkFCSVWoQC8Es&w=122&h=185&c=8&rs=1&qlt=90&o=6&dpr=2&pid=3.1&rm=2" alt="全屏图片" class="fullscreen-image">
+    <img src="https://ts1.cn.mm.bing.net/th?id=OIP-C.CzUsMpGppSJvnoXO7Ef5cQHaLl&w=120&h=185&c=8&rs=1&qlt=90&o=6&dpr=1.6&pid=3.1&rm=2" alt="全屏图片" class="fullscreen-image">
+    <img src="https://ts1.cn.mm.bing.net/th?id=OIP-C.0UVvp6wGYa5_vaRv-lbPGgHaLq&w=123&h=185&c=8&rs=1&qlt=90&o=6&dpr=1.6&pid=3.1&rm=2" alt="中央图片" class="centered-image" id="centeredImage">
+
+    <script>
+        // 获取中央图片元素
+        var centeredImage = document.getElementById('centeredImage');
+        var scale = 10; // 初始放大比例为10%
+
+        // 点击事件监听器
+        centeredImage.addEventListener('click', function() {
+            // 获取当前图片的宽度
+            var currentWidth = parseFloat(centeredImage.style.width) || 10;
+            
+            // 计算新的宽度
+            var newWidth = currentWidth + (currentWidth * 0.05);
+            
+            // 设置新的宽度，如果新宽度大于100%，则设置为100%
+            centeredImage.style.width = (newWidth > 100 ? '100%' : newWidth + '%');
+            
+            // 更新transform以保持居中
+            centeredImage.style.transform = 'translate(-50%, -50%) scale(' + newWidth / 10 + ')';
+        });
+    </script>
 </body>
 </html>
-
