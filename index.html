@@ -14,46 +14,41 @@
             height: 100vh;
             position: relative;
             object-fit: cover;
-            pointer-events: none; /* 禁用全屏图片的点击事件 */
         }
         .centered-image {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 5%; /* 原始尺寸的二十分之一 */
+            width: 5%; /* 原始尺寸的十分之一 */
             height: auto;
             cursor: pointer;
-            pointer-events: auto; /* 启用中央图片的点击事件 */
         }
     </style>
 </head>
 <body>
-    <img src="https://s21.ax1x.com/2024/10/14/pAtU3TK.md.jpg" alt="全屏图片" class="fullscreen-image">
-    <img src="https://s21.ax1x.com/2024/10/14/pAtNXo8.png" alt="中央图片" class="centered-image" id="centeredImage">
+    <img src="https://s21.ax1x.com/2024/10/14/pAtU3TK.jpg" alt="全屏图片" class="fullscreen-image">
+    <img src="https://s21.ax1x.com/2024/10/14/pAtNXo8.md.png" alt="中央图片" class="centered-image" id="centeredImage">
 
     <script>
         var centeredImage = document.getElementById('centeredImage');
-        var maxScale = 10; // 最大放大倍数为100%
-        var scaleIncrement = 0.3; // 每次点击放大30%
-        var currentScale = 0.1; // 初始放大比例为10%
+        var scale = 10; // 初始放大比例为10%
         var dragging = false;
         var offsetX, offsetY, mouseX, mouseY;
 
         // 图片点击放大
         centeredImage.addEventListener('click', function() {
-            if (currentScale < maxScale) {
-                currentScale += scaleIncrement;
-                currentScale = Math.min(currentScale, maxScale); // 限制最大放大倍数
-                centeredImage.style.transform = 'translate(-50%, -50%) scale(' + currentScale + ')';
-            }
+            var currentWidth = parseFloat(centeredImage.style.width) || 10;
+            var newWidth = currentWidth + (currentWidth * 0.05);
+            centeredImage.style.width = (newWidth > 100 ? '100%' : newWidth + '%');
+            centeredImage.style.transform = 'translate(-50%, -50%) scale(' + newWidth / 10 + ')';
         });
 
         // 鼠标按下时开始拖动
         centeredImage.addEventListener('mousedown', function(e) {
             dragging = true;
-            offsetX = e.clientX - centeredImage.getBoundingClientRect().left;
-            offsetY = e.clientY - centeredImage.getBoundingClientRect().top;
+            offsetX = centeredImage.offsetLeft - e.clientX;
+            offsetY = centeredImage.offsetTop - e.clientY;
         });
 
         // 鼠标移动时更新图片位置
@@ -61,11 +56,9 @@
             if (dragging) {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
-                var newLeft = mouseX - offsetX;
-                var newTop = mouseY - offsetY;
-                centeredImage.style.left = newLeft + 'px';
-                centeredImage.style.top = newTop + 'px';
-                centeredImage.style.transform = 'translate(0, 0) scale(' + currentScale + ')';
+                centeredImage.style.left = mouseX + offsetX + 'px';
+                centeredImage.style.top = mouseY + offsetY + 'px';
+                centeredImage.style.transform = 'translate(0, 0) scale(' + (parseFloat(centeredImage.style.width) || 10) / 10 + ')';
             }
         });
 
