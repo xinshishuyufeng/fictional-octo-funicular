@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑动图片</title>
     <style>
         body, html {
             margin: 0;
@@ -27,8 +28,8 @@
     </style>
 </head>
 <body>
-    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.KIkAGALJ8IOd7oY0HCRzMwHaNK?w=180&h=321&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="全屏图片" class="fullscreen-image">
-    <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.vsB2eFeuCPaxTfMBpo2fdwHaNK?w=180&h=290&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="中央图片" class="centered-image" id="centeredImage">
+    <img src="https://s21.ax1x.com/2024/10/14/pAtEBCD.png" alt="全屏图片" class="fullscreen-image">
+    <img src="https://s21.ax1x.com/2024/10/14/pAtED8e.png" alt="中央图片" class="centered-image" id="centeredImage">
 
     <script>
         var centeredImage = document.getElementById('centeredImage');
@@ -39,7 +40,7 @@
         // 图片点击放大
         centeredImage.addEventListener('click', function() {
             var currentWidth = parseFloat(centeredImage.style.width) || 10;
-            var newWidth = currentWidth + (currentWidth * 0.05);
+            var newWidth = currentWidth + (currentWidth * 0.1);
             centeredImage.style.width = (newWidth > 100 ? '100%' : newWidth + '%');
             centeredImage.style.transform = 'translate(-50%, -50%) scale(' + newWidth / 10 + ')';
         });
