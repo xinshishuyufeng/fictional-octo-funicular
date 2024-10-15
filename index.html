@@ -20,10 +20,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 5%; /* 原始尺寸的十分之一 */
+            width: 3%; /* 原始尺寸的十分之一 */
             height: auto;
             cursor: pointer;
             transition: opacity 0.5s ease-out; /* 添加渐变效果 */
+            will-change: transform; /* 提示浏览器该元素将会有变化，优化性能 */
         }
     </style>
 </head>
@@ -32,36 +33,60 @@
     <img src="https://s21.ax1x.com/2024/10/14/pAtNXo8.md.png" alt="中央图片" class="centered-image" id="centeredImage">
 
     <script>
-        var centeredImage = document.getElementById('centeredImage');
-        var scale = 10; // 初始放大比例为10%
-        var dragging = false;
-        var offsetX, offsetY, mouseX, mouseY;
-
-        // 图片点击放大
-        centeredImage.addEventListener('click', function() {
-            var currentWidth = parseFloat(centeredImage.style.width) || 5;
-            var newWidth = currentWidth + (currentWidth * 0.05);
-            centeredImage.style.width = (newWidth > 100 ? '100%' : newWidth + '%');
-            centeredImage.style.transform = 'translate(-50%, -50%) scale(' + newWidth / 10 + ')';
-        });
-
+      var centeredImage = document.getElementById('centeredImage');
+      var dragging = false;
+      var lastX, lastY;
+      var rect, offsetLeft, offsetTop;
+      var maxWidth; // 用于存储最大宽度的变量
+  
+      // 在页面加载时获取图片原始尺寸并计算40%的大小
+      window.addEventListener('load', function() {
+          var img = new Image();
+          img.src = centeredImage.src;
+          img.onload = function() {
+              // 计算图片40%的宽度
+              maxWidth = img.width * 0.08;
+          };
+      });
+  
+      // 图片点击放大
+      centeredImage.addEventListener('click', function() {
+          var currentWidth = parseFloat(centeredImage.style.width) || 3; // 3%为初始宽度
+          var newWidth = currentWidth + (currentWidth * 0.1); // 每次点击放大10%
+          // 确保放大后的宽度不超过40%
+          newWidth = Math.min(newWidth, maxWidth / window.innerWidth * 100);
+          centeredImage.style.width = newWidth + '%';
+          centeredImage.style.transform = 'translate(-50%, -50%) scale(' + newWidth / 10 + ')';
+      });
         // 处理触摸开始事件
         centeredImage.addEventListener('touchstart', function(e) {
             e.preventDefault();
             dragging = true;
-            offsetX = centeredImage.offsetLeft - e.touches[0].clientX;
-            offsetY = centeredImage.offsetTop - e.touches[0].clientY;
+            rect = centeredImage.getBoundingClientRect();
+            offsetLeft = rect.left;
+            offsetTop = rect.top;
+            lastX = e.touches[0].clientX;
+            lastY = e.touches[0].clientY;
         });
 
         // 处理触摸移动事件
         centeredImage.addEventListener('touchmove', function(e) {
             if (dragging) {
                 e.preventDefault();
-                mouseX = e.touches[0].clientX;
-                mouseY = e.touches[0].clientY;
-                centeredImage.style.left = mouseX + offsetX + 'px';
-                centeredImage.style.top = mouseY + offsetY + 'px';
-                centeredImage.style.transform = 'none'; // 移除缩放变换
+                var currentX = e.touches[0].clientX;
+                var currentY = e.touches[0].clientY;
+                var deltaX = currentX - lastX;
+                var deltaY = currentY - lastY;
+                lastX = currentX;
+                lastY = currentY;
+                // 使用requestAnimationFrame来平滑动画
+                requestAnimationFrame(function() {
+                    offsetLeft += deltaX;
+                    offsetTop += deltaY;
+                    centeredImage.style.left = offsetLeft + 'px';
+                    centeredImage.style.top = offsetTop + 'px';
+                    centeredImage.style.transform = 'none'; // 移除缩放变换
+                });
             }
         });
 
@@ -72,14 +97,11 @@
             fadeOutOnBoundary();
         });
 
-        // 检查图片是否到达边界，并逐渐消失
-        function fadeOutOnBoundary() {
-            var rect = centeredImage.getBoundingClientRect();
-            if (rect.left < 0 || rect.right > window.innerWidth || rect.top < 0 || rect.bottom > window.innerHeight) {
-                centeredImage.style.opacity = 0;
-                setTimeout(function() {
-                    centeredImage.style.display = 'none'; // 完全隐藏图片
-                }, 500); // 500ms后完全隐藏
+        // 检查图片是否到达边界，并直接消失
+    function checkBoundaryAndDisappear() {
+        rect = centeredImage.getBoundingClientRect();
+        if (rect.left < 0 || rect.right > window.innerWidth || rect.top < 0 || rect.bottom > window.innerHeight) {
+            centeredImage.style.display = 'none'; // 直接隐藏图片
             }
         }
     </script>
