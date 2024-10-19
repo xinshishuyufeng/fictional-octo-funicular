@@ -63,7 +63,7 @@
     initialTouchTime = new Date().getTime();
     // 判断是否为长按
     setTimeout(function() {
-      if (new Date().getTime() - initialTouchTime >= 500) { // 长按超过500毫秒
+      if (new Date().getTime() - initialTouchTime >= 200) { // 长按超过200毫秒
         initialX = e.touches[0].clientX - centerImage.getBoundingClientRect().left;
         initialY = e.touches[0].clientY - centerImage.getBoundingClientRect().top;
       }
